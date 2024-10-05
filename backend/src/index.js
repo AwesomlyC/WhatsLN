@@ -21,7 +21,12 @@ app.use('/api/light-novels', lightNovelsRoute);
 // Request -->  contains information about HTTP method, headers, request body
 // Response --> Define information that we want to send
 app.get('/', (req, res) => {
-    res.send(`<b>welcome to the API</b>   </br> <a href="http://localhost:5000/api/light-novels">Go to API</a>`)
+  res.send(`
+    <b>welcome to the API</b>   
+    </br> <a href="http://localhost:5000/api/light-novels">Go to API</a>
+    </br>
+    <a href="http://localhost:5000/api/light-novels/18072">Testing Single Page on ID: 18072</a>
+    `)
 });
 
 
