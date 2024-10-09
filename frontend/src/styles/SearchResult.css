@@ -1,0 +1,8 @@
+.search-result{
+    padding: 10px;
+    font-size: large;
+}
+
+.search-result:hover {
+    background-color: gray;
+}

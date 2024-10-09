@@ -2,7 +2,7 @@
 
 Purpose: To use Jikan API to create a Light Novel Website to display various novels.
 
-Tools Used: React/Express/JavaScript/Jikan OpenAPI
+Tools Used: React/Express/JavaScript/Jikan OpenAPI/Axios
 
 # How To Run
 1. cd ./backend

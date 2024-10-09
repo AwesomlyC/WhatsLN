@@ -22,11 +22,25 @@ router.get("/:id", (req, res) => {
 
     console.log("Request ID: " + id);
     axios
-        .get(`https://api.jikan.moe/v4/manga/${id}/full`)
+        .get(`https://api.jikan.moe/v4/manga/${id}`)
         .then(function (response) {
             res.send(response.data);
+        }).catch(error => {
+            console.log("----Error when retrieving info for single ln: " + error);
         });
     console.log("--Successfully retrieve Single LN ID: " + id);
 });
 
+router.get("/recommendation/:id", (req, res) => {
+    let id = req.params.id;
+    console.log("------CALLED RECOMMENDATION-------");
+    axios.get(`https://api.jikan.moe/v4/manga/${id}/recommendations`)
+        .then(function (response) {
+            res.send(response.data);
+
+        }).catch(error => {
+            console.log("----Error when retrieving recommendation for single ln: " + error);
+        });
+    console.log("--Sucessfully retrieve Single LN Recommendation: " + id);
+})
 module.exports = router;
