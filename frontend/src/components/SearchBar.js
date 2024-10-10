@@ -10,30 +10,24 @@ function SearchBar({setResults}) {
 
   const fetchData = (value) => {
     // API Request Call
-    // console.log(`https://api.jikan.moe/v4/manga?q=bungaku`);
-    // axios.get(`https://api.jikan.moe/v4/manga?q=${value}`)
-    //   .then((response) => response.json())
-    //   .then((json) => {
-    //     // console.log(json);
-    //     const results = json.filter((user) => {
-    //       // console.log(value);
-    //       return value && (value.length >= 0) && user && user.name && user.name.toLowerCase().includes(value);
-    //     })
-    //     console.log(results);
-    //     setResults(results);
-    //   });
+    axios.get(`http://localhost:5000/api/light-novels/search/${value}`)
+      .then(function (response) {
+        setResults(response.data.data);
+      });
+
   }
 
   const handleChange = (value) => {
     setInput(value);
     // Call fetchData with paramater value
-    // clearTimeout(timeOut.current);
-    // fetchData(value);
+    clearTimeout(timeOut.current);
     // Only show possible results after a set period of time and
     // when the user stops typing.
     // Default: 300 ms
     timeOut.current = setTimeout(() => {
-      fetchData(value);
+      if (value.length >= 3) {
+        fetchData(value);
+      }
     }, 300);
   }
 

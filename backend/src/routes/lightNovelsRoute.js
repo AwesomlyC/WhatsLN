@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Single Light Novel Page
+// Returns data
 router.get("/:id", (req, res) => {
     let id = req.params.id;
 
@@ -31,6 +32,8 @@ router.get("/:id", (req, res) => {
     console.log("--Successfully retrieve Single LN ID: " + id);
 });
 
+// Retrieve recommendation when user is looking at a particular 
+// Light Novel/Manga
 router.get("/recommendation/:id", (req, res) => {
     let id = req.params.id;
     console.log("------CALLED RECOMMENDATION-------");
@@ -43,4 +46,19 @@ router.get("/recommendation/:id", (req, res) => {
         });
     console.log("--Sucessfully retrieve Single LN Recommendation: " + id);
 })
+
+
+// API to retrieve search results when user is interacting 
+// with the search bar
+router.get("/search/:title", (req, res) => {
+    let searchTitle = req.params.title;
+    console.log("-----Called Search Title------");
+    axios.get(`https://api.jikan.moe/v4/manga?q=${searchTitle}&type=lightnovel`)
+        .then(function (response) {
+            res.send(response.data);
+        })
+    
+})
+
+
 module.exports = router;

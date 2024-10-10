@@ -6,3 +6,19 @@
 .search-result:hover {
     background-color: gray;
 }
+
+
+ a.search-result-link {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits color from parent, so it won’t change on hover */
+}
+
+a.search-result-link:visited {
+    color: inherit; /* Ensures the color doesn’t change when the link is visited */
+}
+
+a.search-result-link:hover, 
+a.search-result-link:focus {
+    outline: none; /* Removes outline on focus (for accessibility) */
+    color: inherit; /* Ensures no color change on hover or focus */
+}

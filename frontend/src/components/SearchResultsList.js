@@ -2,14 +2,11 @@ import React from 'react'
 import './../styles/SearchResultsList.css'
 import SearchResult from './SearchResult';
 function SearchResultsList({ results }) {
-    // console.log("Results: " + results + "----" + results.map((result, id) => console.log(result.name)));
   return (
-      <div className='results-list'>
-          {results.map((result, id) => {
-              console.log(result);
-              return <div><SearchResult result={result} key={id} /></div>
+    <div className='results-list' key={results}>
+      {results.map((result) => {
+              return <div><SearchResult key={result.mal_id} result={result} /></div>
           })}
-
     </div>
   )
 }
