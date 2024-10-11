@@ -16,4 +16,24 @@ Tools Used: React/Express/JavaScript/Jikan OpenAPI/Axios
 Started -- September 28, 2024
 
 # Phase 1
-Created temporary home page that loads the first 25 LNs, Single Light Novel for a specific ID. Connection between backend and frontend using express. Incorporated Jikan API calls to backend.
+Created temporary home page that loads the first 25 LNs, 
+Single Light Novel for a specific ID. 
+Connection between backend and frontend using express. 
+Incorporated Jikan API calls to backend.
+Developed search bar and show the results up to 40 characters of title.
+
+# Planned-to-do
+Fix Styling issues with Main Page, Single Page and Search Bar
+
+Single Page Layout
+```
+|-------------------------------|   
+|            NAVBAR             |       T = Title, AT = Alt. Title, P = Picture
+|  T                            |       SYN = Synopsis
+|  AT         SYN               |       REC = Recommendation
+|  P                            |
+|                               |
+|   REC                         |
+|                               |
+|-------------------------------|
+```

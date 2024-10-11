@@ -23,11 +23,11 @@ function Header() {
 
           </div>
         <div className="navbar-right">
-            <a href="/cart" className="cart-icon">
+            <a href="/" className="cart-icon">
             <i className="fas fa-shopping-cart"></i>
             <span className="cart-count">0</span>
             </a>
-            <a href="/account" className="user-icon">
+            <a href="/" className="user-icon">
             <i className="fas fa-user"></i>
             </a>
         </div>

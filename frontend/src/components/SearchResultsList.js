@@ -4,7 +4,8 @@ import SearchResult from './SearchResult';
 function SearchResultsList({ results }) {
   return (
     <div className='results-list' key={results}>
-      {results.map((result) => {
+      
+      {results.length > 0 && results.map((result) => {
               return <div><SearchResult key={result.mal_id} result={result} /></div>
           })}
     </div>

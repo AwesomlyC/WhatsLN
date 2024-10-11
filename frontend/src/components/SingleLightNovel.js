@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useSearchParams} from 'react-router-dom'
 import axios from 'axios';
+import './../styles/SingleLightNovel.css'
 
 const API_URL = 'http://localhost:5000/api/light-novels'
 
@@ -51,26 +52,35 @@ function SingleLightNovel() {
     }
   return (
       <div className="container">
-          <ul>
-            <li key={singleLightNovel.mal_id}>
-                <h3>{singleLightNovel.title}</h3>
-                  <p>ID: {singleLightNovel.mal_id}</p>
-                  <a href = {`${singleLightNovel.url}`}>Link to MAL</a>
-                  <img src={singleLightNovel.images.jpg.image_url} alt={singleLightNovel.images.webp.image_url} />    
-            </li> 
-          </ul>
-          Recommendation Area
-          {recommendations.map(novel => (
-                    <li key={novel.entry.mal_id}>
-                    <h3>
-                        <a href={`http://localhost:3000/single-ln?id=${novel.entry.mal_id}`}>{novel.entry.title}</a>
-                    </h3>
-                    <p>ID: {novel.entry.mal_id}</p>
-                    {/* // May need to modified the image_url later */}
-                  <img src={novel.entry.images.jpg.image_url} alt={novel.entry.images.webp.image_url} />    
-                </li>
-              ))}
+          <div className="description-area">
+              <div className="title">
+                  <h3>Title: {singleLightNovel.title}</h3>
+                  <h4>Alt. Title: {singleLightNovel.title_japanese}</h4>
+                  <h5><a href = {`${singleLightNovel.url}`}>Link to MyAnimeList's Page</a></h5>
+              </div>
+              <div className="details">
+              <div className="image">
+                <img src={singleLightNovel.images.jpg.image_url} alt={singleLightNovel.images.webp.image_url} />    
+                  </div>
+                  <div className="synopsis">
+                      <h2><em>Synopsis:</em></h2> {singleLightNovel.synopsis}
+                  </div>
+                </div>
+          </div>
+          <div className="recommendation-area">
+              <div className="title" id="recommendation"><h1>Recommendations</h1></div>
+              <div className="recommendations">
+                  {recommendations.map(novel => (
+                      <li key={novel.entry.mal_id}>
+                          <img src={novel.entry.images.jpg.image_url} alt={novel.entry.images.webp.image_url} />
+                          <h3>
+                              <a href={`http://localhost:3000/single-ln?id=${novel.entry.mal_id}`}>{novel.entry.title}</a>
+                          </h3>
+                      </li>
+                  ))}
+              </div>
 
+          </div>
       </div>
   )
 }

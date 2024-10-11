@@ -13,6 +13,7 @@ function SearchBar({setResults}) {
     axios.get(`http://localhost:5000/api/light-novels/search/${value}`)
       .then(function (response) {
         setResults(response.data.data);
+        console.log(response.data.data);
       });
 
   }
@@ -27,6 +28,10 @@ function SearchBar({setResults}) {
     timeOut.current = setTimeout(() => {
       if (value.length >= 3) {
         fetchData(value);
+      }
+      // Resets the "setResults" to remove the search-results-list
+      else {
+        setResults({})
       }
     }, 300);
   }

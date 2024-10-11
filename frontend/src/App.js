@@ -10,7 +10,7 @@ function App() {
     <div>
       <Router>
         <Header />
-        <h1>Light Novel Application</h1>
+        {/* <h1>Light Novel Application</h1> */}
         <div className="container">
           <Routes>
             <Route exact path='/' Component={LightNovel}/>

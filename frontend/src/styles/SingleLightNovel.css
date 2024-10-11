@@ -1,0 +1,47 @@
+.description-area{
+    /* background-color: lightcyan; */
+}
+.title{
+    /* background-color: yellow; */
+    text-align: center;
+}
+.details{
+    display: flex;
+    justify-content: left;
+    padding: 1rem 2.5rem;
+
+}
+
+.image img{
+    border: 5px solid green;
+    border-radius: 10px;
+}
+
+.synopsis{
+    padding: 1rem 2.5rem;
+    font-size: large;
+}
+
+.recommendations{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    list-style-type: none;
+    flex-wrap: wrap;
+    background-color: pink;
+    padding: 0;
+    margin: 0;
+    padding: 2.5rem 5rem;
+}
+.recommendation-area li{    
+    margin-right: 7rem;
+}
+
+.recommendation-area img {
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+}
+#recommendation{
+    background-color:lightcoral
+}
