@@ -8,7 +8,7 @@ const router = express.Router();
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
     axios
-        .get("https://api.jikan.moe/v4/manga?type=lightnovel&limit=25&order_by=title&sort=asc")
+        .get("https://api.jikan.moe/v4/manga?type=lightnovel&limit=25&order_by=title&sort=asc&sfw=true")
         .then(function (response) {
             let data = response.data;
             res.json(data);

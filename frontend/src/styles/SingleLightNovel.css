@@ -16,9 +16,13 @@
     border: 5px solid green;
     border-radius: 10px;
 }
-
-.synopsis{
+.detail{
     padding: 1rem 2.5rem;
+}
+.genres{
+    padding: 1.5rem 0rem;
+}
+.synopsis{
     font-size: large;
 }
 

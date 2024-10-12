@@ -1,0 +1,41 @@
+h1 {
+    text-align: center;
+}
+
+.light-novels{
+    display: flex;
+    width: 90%;
+    max-width: 100%;
+    min-width: 50%;
+}
+
+.novel{
+    display: flex;
+    padding: 2.5rem 1.25rem;    
+}
+
+li {
+    background-color: #d8c3a5;
+    list-style-type: none;
+}
+
+li:nth-child(odd) {
+    background-color:#8aa399;
+}
+.description{
+    padding: 2.5rem;
+    width: 100%;
+}
+
+.novel-synopsis{
+    padding-bottom: 2rem;
+}
+
+h3.title{
+    text-align: center;
+}
+
+
+a:visited{
+    color: blue;
+}
