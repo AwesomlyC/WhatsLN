@@ -20,6 +20,19 @@
     margin: 0;
     padding: 0;
   }
+  .navbar-center .search_bar{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 2rem;
+  }
+
+  .navbar-center .search_bar button{
+    border-radius: 8px;
+    font-size: larger;
+    background-color: #DDDDDD;
+    height: 2rem;
+  }
   
   .navbar-center .nav-links li {
     margin-right: 1rem;

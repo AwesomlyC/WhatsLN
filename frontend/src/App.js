@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LightNovel from './components/LightNovels'
 import SingleLightNovel from './components/SingleLightNovel';
 import Header from './components/Header';
-
+import FilterNovel from './components/FilterNovel';
+import SearchPage from './components/SearchPage';
 function App() {
   return (
     <div>
@@ -14,7 +15,9 @@ function App() {
         <div className="container">
           <Routes>
             <Route exact path='/' Component={LightNovel}/>
-            <Route path='/single-ln' Component={SingleLightNovel}/>
+            <Route path='/single-ln' Component={SingleLightNovel} />
+            <Route path='/filter' Component={FilterNovel} />
+            <Route path='/search' Component={SearchPage} />
           </Routes>
         </div>
       </Router>

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { FaSearch } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import './../styles/SearchBar.css'
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ function SearchBar({setResults}) {
 
   const [input, setInput] = useState("");
   const timeOut = useRef(null);
+  const navigate = useNavigate();
 
   const fetchData = (value) => {
     // API Request Call
@@ -35,13 +37,22 @@ function SearchBar({setResults}) {
       }
     }, 300);
   }
-
+  const handleSearch = (e) => {
+    // e.preventDefault();
+    if (e.key === "Enter" && e.target.value && e.target.value.trim()) {
+      // Search and send data
+      console.log(e.target.value);
+      navigate(`/search?q=${e.target.value}`)
+    }
+  } 
   return (
       <div className='input-wrapper'>
           <FaSearch id = 'search-icon'/>
       <input placeholder="Type to search..."
         value={input}
-        onChange={(e) => handleChange(e.target.value)} />
+        onChange={(e) => handleChange(e.target.value)}
+        onKeyDown={(e) => handleSearch(e)}
+      />
       </div>
   )
 }

@@ -11,13 +11,10 @@ function LightNovels() {
             const response = await axios.get('http://localhost:5000/api/light-novels')
                 .then(function (response) {
                     setLightNovel(response.data.data);
-                    console.log(lightNovel);
                 })
                 .catch(error => {
                     console.log("Error with fetching light novels using backend API: " + error);
                 });
-            console.log(response);
-
         };
 
         fetchLightNovels();
