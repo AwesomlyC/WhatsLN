@@ -7,13 +7,12 @@ function SearchPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     useEffect(() => {
-        console.log("Search page load");
         // Retrieve all params from the URL such as q=apple
         const params = new URLSearchParams(location.search);
-        let query = params.get('q')
-        setSearchQuery(query || '');
+        const query = params.get('q')
+        setSearchQuery(query);
         
-        axios.get(`http://localhost:5000/api/light-novels/search/${searchQuery}`)
+        axios.get(`http://localhost:5000/api/light-novels/search/${query}`)
             .then(function (response) {
                 setSearchResults(response.data.data);
                 console.log(response.data.data);

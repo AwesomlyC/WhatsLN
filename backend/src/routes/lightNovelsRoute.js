@@ -52,7 +52,7 @@ router.get("/recommendation/:id", (req, res) => {
 // with the search bar
 router.get("/search/:title", (req, res) => {
     let searchTitle = req.params.title;
-    console.log("-----Called Search Title------");
+    console.log("-----Called Search Title: " + searchTitle + "------");
     axios.get(`https://api.jikan.moe/v4/manga?q=${searchTitle}&type=lightnovel`)
         .then(function (response) {
             res.send(response.data);
