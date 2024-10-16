@@ -23,16 +23,17 @@ Incorporated Jikan API calls to backend.
 Developed search bar and show the results up to 40 characters of title.
 
 # Phase 2
-Create SideBar for filtering items specified by user (only for home page),
-Add the number of volumes/chapters for each novel in (Single Page),
-Add the publishing information and author for each novel in (Single Page)
-Add author for each novel in (Home Page)
-Add Status for each novel in (Home Page) and (Single Page)
-Add Score for each novel in (Single Page)
-Add Search Page when user press enter on Search Bar (Search Page)
-
+```
+Add the number of volumes/chapters for each novel in (Single Page) [x]
+Add the publishing information and author for each novel in (Single Page) [x]
+Add author for each novel in (Home Page)  [x]
+Add Status for each novel in (Home Page) and (Single Page)  [x]
+Add Score for each novel in (Single Page) [x]
+Add Search Page when user press enter on Search Bar (Search Page) [x]
+```
 Remove Search Results when user exits the search bar (SearchBar)
-
+# Phase 3
+Add Pagination (Home Page, Single Page, Search Page)
 # Planned-to-do
 Fix Styling issues with Main Page, Single Page and Search Bar
 
@@ -46,18 +47,5 @@ Single Page Layout
 |                               |
 |   REC                         |
 |                               |
-|-------------------------------|
-```
-
-Home Page Layout
-```
-|-------------------------------|
-|           NAVBAR              |           S = SideBar, N = Novel
-|   S      HOME PAGE            |
-|   S           N               |
-|   S           N               |
-|   S           N               |
-|   S           N               |
-|   S           N               |
 |-------------------------------|
 ```

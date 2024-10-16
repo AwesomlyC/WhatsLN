@@ -4,11 +4,12 @@ const express = require("express");
 const axios = require("axios");
 const router = express.Router();
 
+const JIKAN_URL = 'https://api.jikan.moe/v4'
 // Main Page || Home Page
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
     axios
-        .get("https://api.jikan.moe/v4/manga?type=lightnovel&limit=25&order_by=title&sort=asc&sfw=true")
+        .get(JIKAN_URL + "/manga?type=lightnovel&limit=25&order_by=title&sort=asc&sfw=true")
         .then(function (response) {
             let data = response.data;
             res.json(data);
@@ -18,12 +19,12 @@ router.get("/", async (req, res) => {
 
 // Single Light Novel Page
 // Returns data
-router.get("/:id", (req, res) => {
+router.get("/single/:id", (req, res) => {
     let id = req.params.id;
 
     console.log("Request ID: " + id);
     axios
-        .get(`https://api.jikan.moe/v4/manga/${id}`)
+        .get(JIKAN_URL + `/manga/${id}`)
         .then(function (response) {
             res.send(response.data);
         }).catch(error => {
@@ -37,7 +38,7 @@ router.get("/:id", (req, res) => {
 router.get("/recommendation/:id", (req, res) => {
     let id = req.params.id;
     console.log("------CALLED RECOMMENDATION-------");
-    axios.get(`https://api.jikan.moe/v4/manga/${id}/recommendations`)
+    axios.get(JIKAN_URL + `/manga/${id}/recommendations`)
         .then(function (response) {
             res.send(response.data);
 
@@ -45,7 +46,7 @@ router.get("/recommendation/:id", (req, res) => {
             console.log("----Error when retrieving recommendation for single ln: " + error);
         });
     console.log("--Sucessfully retrieve Single LN Recommendation: " + id);
-})
+});
 
 
 // API to retrieve search results when user is interacting 
@@ -53,11 +54,40 @@ router.get("/recommendation/:id", (req, res) => {
 router.get("/search/:title", (req, res) => {
     let searchTitle = req.params.title;
     console.log("-----Called Search Title: " + searchTitle + "------");
-    axios.get(`https://api.jikan.moe/v4/manga?q=${searchTitle}&type=lightnovel`)
+    axios.get(JIKAN_URL + `/manga?q=${searchTitle}&type=lightnovel`)
         .then(function (response) {
             res.send(response.data);
         })
     
-})
+});
+// API to filter out novels/manga based on user choices
+// Types: all/light_novel/manga/novel/manhwa/manhua
+// Status: all/publishing/complete/hiatus/discontinued/upcoming
+// SFW : true/false
+router.get('/filter', (req, res) => {
+    console.log("-----Called Filter Express Router-------");
+    console.log("Parameters: " + req.query);
+    console.log("Parameters: " + req.params);
+    let type = req.query.type != "all" ? req.query.type : ``;
+    let status = req.query.status != "all" ? req.query.status : ``;
+    let sfw = req.query.sfw;
 
+
+    let queryParams = [
+        type ? `type=${type}` : '',
+        status ? `status=${status}` : '',
+        sfw ? `sfw=${sfw}` : ''
+      ].filter(Boolean).join('&');
+      
+
+    
+    console.log(JIKAN_URL + `/manga?${queryParams}`)
+    axios
+        .get(JIKAN_URL + `/manga?${queryParams}`)
+        .then(function (response) {
+            res.send(response.data);
+            // console.log(response.data)
+        })
+    // res.send("pass");
+});
 module.exports = router;

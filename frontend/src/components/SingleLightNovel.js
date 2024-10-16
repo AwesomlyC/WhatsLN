@@ -19,7 +19,7 @@ function SingleLightNovel() {
         const fetchSingleLightNovel = async () => {
             const response = await
                 axios
-                    .get(API_URL + `/${id}`)
+                    .get(API_URL + `/single/${id}`)
                     .then(function (response) {
                         setSingleLightNovel(response.data.data);
                         console.log(singleLightNovel);
@@ -63,11 +63,29 @@ function SingleLightNovel() {
                       <img src={singleLightNovel.images.jpg.image_url} alt={singleLightNovel.images.webp.image_url} />
                   </div>
                   <div className='detail'>
-                      <div className="synopsis">
-                      <h2><em>Synopsis:</em></h2> {singleLightNovel.synopsis ? singleLightNovel.synopsis: "No synopsis information has been found..."}
+                      <div className="novel-synopsis">
+                          <h2><em>Synopsis:</em></h2> {singleLightNovel.synopsis ? singleLightNovel.synopsis : "No synopsis information has been found..."}
                       </div>
                       <div className='genres'>
                           <b>Genres: </b> {singleLightNovel.genres.length > 0 ? singleLightNovel.genres.map(item => item.name).join(', ') : "N/A"}
+                      </div>
+                      <div className='author'>
+                          <b>Author(s): </b> {singleLightNovel.authors.length > 0 ? singleLightNovel.authors.map(author => author.name).join(', ') : "N/A"}
+                      </div>
+                      <div className='status'>
+                          <b>Status: </b> {singleLightNovel.status}
+                      </div>
+                      <div className='type'>
+                          <b>Type: </b> {singleLightNovel.type}
+                      </div>
+                      <div className='score'>
+                          <b>Score: </b> {singleLightNovel.score !== null ? singleLightNovel.score : "N/A"}
+                      </div>
+                      <div className='chapter'>
+                          <b>Chapters: </b> {singleLightNovel.chapters}
+                      </div>
+                      <div className='volume'>
+                          <b>Volumes: </b> {singleLightNovel.volumes}
                       </div>
                   </div>
               </div>

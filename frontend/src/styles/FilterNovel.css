@@ -4,3 +4,72 @@
     padding: 2.5rem;
     margin: 6rem;
 }
+
+.filter-menu .options{
+    background: green;
+    display: flex;
+    gap: 2.5rem;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 2rem;
+}
+
+.filter-menu .search-bar{
+    background: yellow;
+    width: 100%;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    background-color: brown;
+    border: none;
+    cursor: pointer;
+    width: auto;
+
+    padding: 0 10px;
+    line-height: 32px;
+    font-size: 14px;
+    max-width: 140px;
+    box-shadow: none;
+    color: #ffdd95;
+}
+
+.box{
+    border: 2px solid darkblue;
+    width: 200px;
+    display: flex;
+    
+    gap: 20px;
+    padding: 5px;
+}
+
+.box .label {
+    color: white;
+    float: left;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.found-novels{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    list-style-type: none;
+    /* display: flex;
+    justify-content: center;
+    flex-direction: row;
+    list-style-type: none;
+    flex-wrap: wrap;
+    background-color: pink;
+    padding: 0;
+    margin: 0;
+    padding: 2.5rem 5rem;
+    text-align: center; */
+}
+.found-novels li{
+    /* margin-right: 7rem;
+    flex: 0 0 calc(16.66% - 10px);  */
+}

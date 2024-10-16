@@ -44,6 +44,18 @@ function LightNovels() {
                                     <div className='genres'>
                                         <b>Genres: </b>{novel.genres.length > 0 ? novel.genres.map(item => item.name).join(', '): "N/A"}
                                     </div>
+                                    <div className='author'>
+                                        <b>Author(s): </b> {novel.authors.length > 0 ? novel.authors.map(author => author.name).join(', ') : "N/A"}
+                                    </div>
+                                    <div className='status'>
+                                        <b>Status: </b> {novel.status}
+                                    </div>
+                                    <div className='type'>
+                                        <b>Type: </b> {novel.type}
+                                    </div>
+                                    <div className='score'>
+                                        <b>Score: </b> {novel.score !== null ? novel.score : "N/A"}
+                                    </div>
                                 </div>
                             </div>
                         </li>
