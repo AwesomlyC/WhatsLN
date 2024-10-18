@@ -6,6 +6,7 @@ import SingleLightNovel from './components/SingleLightNovel';
 import Header from './components/Header';
 import FilterNovel from './components/FilterNovel';
 import SearchPage from './components/SearchPage';
+import ScrollButton from './components/ScrollButton';
 function App() {
   return (
     <div>
@@ -20,6 +21,7 @@ function App() {
             <Route path='/search' Component={SearchPage} />
           </Routes>
         </div>
+        < ScrollButton />
       </Router>
     </div>
   );
