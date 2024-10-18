@@ -11,7 +11,6 @@ function FilterNovel() {
     const [novels, setNovels] = useState([]);
 
     const findNovels = (event) => {
-        console.log(type + " " + status + " " + sfw);
 
         let queryParams = [
             type ? `type=${type}` : '',
@@ -19,10 +18,8 @@ function FilterNovel() {
             sfw ? `sfw=${sfw}` : ''
             ].filter(Boolean).join('&');
         
-        console.log(API_URL + `/filter?${queryParams}`)
         axios.get(API_URL + `/filter?${queryParams}`).then(function (response) {
-            console.log(response.data.data);
-            setNovels(response.data.data);
+                setNovels(response.data.data);
         });
     }
     return (

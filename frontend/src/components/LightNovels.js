@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
-
+import { useNavigate } from 'react-router-dom'; 
 import './../styles/LightNovels.css'
 function LightNovels() {
 
     const [lightNovel, setLightNovel] = useState([]);
+    const navigate = useNavigate();
+    const SERVER_URL = `http://localhost:5000/api/light-novels`
     useEffect(() => {
         const fetchLightNovels = async () => {
             // Calls backend API to retrieve all light novels
-            const response = await axios.get('http://localhost:5000/api/light-novels')
+            const response = await axios.get(SERVER_URL)
                 .then(function (response) {
                     setLightNovel(response.data.data);
                 })
@@ -21,11 +23,39 @@ function LightNovels() {
     }, []);
 
 
+    const fetchRandomManga = () => {
+        // API CALL
+        axios
+            .get(SERVER_URL + "/random/manga")
+            .then(function (response) {
+                navigate(response.data);
+            })
+                .catch(error => {
+                    console.log("Error with fetching random manga...");
+                })
+        
+    }
 
+    const fetchRandomAnime = () => {
+        // API CALL
+        axios
+        .get(SERVER_URL + "/random/anime")
+            .then(function (response) {
+                navigate(response.data);
+        })
+            .catch(error => {
+                console.log("Error with fetching random manga...");
+            })
+    }
     
     return (
         <div>
-            <h1> Home Page</h1>
+            <div className='header'>
+                <button className='fetch-random' onClick={fetchRandomManga}>Random Manga</button>
+                <h1> Home Page</h1>
+                <button className='fetch-random' onClick={fetchRandomAnime}>Random Anime</button>
+
+            </div>
             <div className="light-novels">
                 <ul>
                     {lightNovel.map(novel => (

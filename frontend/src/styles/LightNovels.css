@@ -39,3 +39,16 @@ h3.title{
 a:visited{
     color: blue;
 }
+
+.header{
+    display: flex;
+    justify-content: space-around;
+}
+
+.fetch-random {
+    border-radius: 10px;
+    width: 20%;
+    height: 50px;
+    margin: auto;
+    background-color: #aff399;
+}

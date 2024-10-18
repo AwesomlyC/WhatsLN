@@ -90,4 +90,30 @@ router.get('/filter', (req, res) => {
         })
     // res.send("pass");
 });
+
+// Fetch Random Manga Route
+router.get('/random/manga', (req, res) => {
+    axios
+        .get(JIKAN_URL + "/random/manga")
+        .then(function (response) {
+            res.send("single-ln?id=" + response.data.data.mal_id);
+        })
+        .catch(error => {
+            res.send("error");
+    })
+})
+
+
+// Fetch Random Anime Route
+router.get('/random/anime', (req, res) => {
+    axios
+    .get(JIKAN_URL + "/random/anime")
+    .then(function (response) {
+        res.send("single-ln?id=" + response.data.data.mal_id);
+    })
+    .catch(error => {
+        res.send("error");
+})
+})
+
 module.exports = router;
