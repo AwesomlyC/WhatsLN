@@ -16,12 +16,13 @@ Tools Used: React/Express/JavaScript/Jikan OpenAPI/Axios
 Started -- September 28, 2024
 
 # Phase 1
+```
 Created temporary home page that loads the first 25 LNs, 
 Single Light Novel for a specific ID. 
 Connection between backend and frontend using express. 
 Incorporated Jikan API calls to backend.
 Developed search bar and show the results up to 40 characters of title.
-
+```
 # Phase 2
 ```
 Add the number of volumes/chapters for each novel in (Single Page) [x]
@@ -30,10 +31,14 @@ Add author for each novel in (Home Page)  [x]
 Add Status for each novel in (Home Page) and (Single Page)  [x]
 Add Score for each novel in (Single Page) [x]
 Add Search Page when user press enter on Search Bar (Search Page) [x]
+Remove Search Results when user exits the search bar (SearchBar) [x]
+Add random manga/anime button to allow user to explore (Home Page) [x]
 ```
-Remove Search Results when user exits the search bar (SearchBar)
 # Phase 3
+```
 Add Pagination (Home Page, Single Page, Search Page)
+Add scroll-to-top button when user scroll passed a certain threshold (Home Page, Single Page, Search Page)
+```
 # Planned-to-do
 Fix Styling issues with Main Page, Single Page and Search Bar
 

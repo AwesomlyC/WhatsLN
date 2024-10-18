@@ -52,3 +52,11 @@ a:visited{
     margin: auto;
     background-color: #aff399;
 }
+
+.fetch-random:hover{
+    cursor: pointer;
+}
+
+.fetch-random:active{
+    background-color: red;
+}
