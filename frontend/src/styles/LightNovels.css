@@ -4,16 +4,26 @@ h1 {
 
 .light-novels{
     display: flex;
-    width: 90%;
     max-width: 100%;
     min-width: 50%;
+    margin: 0 50px;
 }
 
 .novel{
     display: flex;
-    padding: 2.5rem 1.25rem;    
+    padding: 2.5rem 1.25rem;   
+    justify-content: center;
+    align-items: center; 
 }
 
+.novel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between grid items */
+    list-style-type: none; /* Remove bullets from list */
+    padding: 0; /* Remove padding from ul */
+    transition: all 0.5s ease; /* Smooth transition */ 
+ }
 li {
     background-color: #d8c3a5;
     list-style-type: none;

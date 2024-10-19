@@ -10,6 +10,8 @@ function LightNovels() {
     const [lightNovel, setLightNovel] = useState([]);
     const [pagination, setPagination] = useState([]);
     const [currentPage, setCurrentPage] = useSearchParams();
+    const [isGrid, setIsGrid] = useState(false);
+
     const page = currentPage.get('page') ? currentPage.get('page')  : 1;
     const navigate = useNavigate();
     useEffect(() => {
@@ -54,21 +56,41 @@ function LightNovels() {
                 console.log("Error with fetching random manga...");
             })
     }
-    
+    function truncateSynopsis(synopsis) {
+        if (synopsis) {
+            if (!isGrid) {
+                return synopsis;
+            }
+            if (synopsis.length > 100) {
+                return synopsis.slice(0, 300) + "..."
+            }
+            return synopsis;
+        } else {
+            return "No synopsis information has been found..."
+        }
+    }
+
+    const toggleView = () => {
+        setIsGrid(!isGrid);
+    }
     return (
         <div>
             <div className='header'>
                 <button className='fetch-random' onClick={fetchRandomManga}>Random Manga</button>
                 <h1> Home Page</h1>
                 <button className='fetch-random' onClick={fetchRandomAnime}>Random Anime</button>
-
+                <button onClick={toggleView}>
+                    {isGrid ? 'Switch to List View' : 'Switch to Grid View'}
+      </button>
             </div>
             <div className="light-novels">
-                <ul>
+                <ul className={isGrid ? 'novel-grid' : ""}>
                     {lightNovel.map(novel => (
                         <li>
                             <div className="novel">
-                                <img src={novel.images.jpg.image_url} alt="picture_holder" />
+                                <div className='novel-picture'>
+                                    <img src={novel.images.jpg.image_url} alt="picture_holder" />
+                                </div>
                                 <div className='description'>
                                     <h3 className="title">
                                         <a href={`http://localhost:3000/single-ln?id=${novel.mal_id}`}>{novel.title}</a>
@@ -76,7 +98,9 @@ function LightNovels() {
                                     <h5 className="title"><a href = {`${novel.url}`}>Link to MyAnimeList's Page</a></h5>
 
                                     <div className="novel-synopsis">
-                                        <h2><em>Synopsis:</em></h2> {novel.synopsis ? novel.synopsis: "No synopsis information has been found..."}
+                                        <h2><em>Synopsis:</em></h2>
+                                        {truncateSynopsis(novel.synopsis)}
+                                        {/* {novel.synopsis ? novel.synopsis : "No synopsis information has been found..."} */}
                                     </div>
                                     <div className='genres'>
                                         <b>Genres: </b>{novel.genres.length > 0 ? novel.genres.map(item => item.name).join(', '): "N/A"}
