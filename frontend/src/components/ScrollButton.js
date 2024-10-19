@@ -19,7 +19,7 @@ function ScrollButton() {
     
     const scrollToTop = () => {
         window.scrollTo({
-            top: 0,
+            top: 1000000,               // EDIT TO BE 0 AFTER
             behavior: "smooth"
         });
     };

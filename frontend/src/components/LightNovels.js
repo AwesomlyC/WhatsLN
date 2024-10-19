@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useSearchParams } from 'react-router-dom'; 
+import Pagination from './Pagination';
 import './../styles/LightNovels.css'
+const SERVER_URL = `http://localhost:5000/api/light-novels`
+
 function LightNovels() {
 
     const [lightNovel, setLightNovel] = useState([]);
+    const [pagination, setPagination] = useState([]);
+    const [currentPage, setCurrentPage] = useSearchParams();
+    const page = currentPage.get('page');
     const navigate = useNavigate();
-    const SERVER_URL = `http://localhost:5000/api/light-novels`
     useEffect(() => {
         const fetchLightNovels = async () => {
+            console.log(SERVER_URL + "?page=" + page)
             // Calls backend API to retrieve all light novels
-            const response = await axios.get(SERVER_URL)
+            const response = await axios.get(SERVER_URL + "?page=" + page)
                 .then(function (response) {
                     setLightNovel(response.data.data);
+                    setPagination(response.data.pagination)
                 })
                 .catch(error => {
                     console.log("Error with fetching light novels using backend API: " + error);
@@ -92,6 +99,7 @@ function LightNovels() {
                     ))}
                 </ul>
             </div>
+            <Pagination pagination={pagination} />
         </div>
     )
 }
