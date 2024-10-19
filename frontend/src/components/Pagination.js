@@ -8,26 +8,32 @@ function Pagination({ pagination }) {
     const WEBPAGE_URL = "http://localhost:3000/?page="
     console.log(pagination);
   return (
-      <div className='pagination'>
-          Show First Page: {(current_page - 1) >= 3 && <div><a href={`${WEBPAGE_URL}${1}`}>{1}</a></div>}
-          <br />
-          ...
-          <br/>
-          Shows 2 page before: {(current_page - 1) >= 2 && <div><a href={`${WEBPAGE_URL}${current_page - 2}`}>{current_page - 2}</a></div>}
-          <br />
-          Shows 1 page before: {(current_page - 1) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page - 1}`}>{current_page - 1}</a></div>}
-          <br />
-          Current_Page: {pagination.current_page}
-            <br />
-          Shows 1 page after: {(last_visible_page - current_page) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page + 1}`}>{current_page + 1}</a></div>}
-          <br />
-          Shows 2 page after: {(last_visible_page - current_page) >= 2 && <div><a href={`${WEBPAGE_URL}${current_page + 2}`}>{current_page + 2}</a></div>}
-          <br />
-          ...
+    <div className='pagination'>
+      <div className='pagination-left'>
+        {(current_page - 1) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page - 1}`}>Previous</a></div>}
+      </div>
+      <div className='pagination-center'>
+        {(current_page - 1) >= 3 && <div><a href={`${WEBPAGE_URL}${1}`}>{1}</a></div>}
+        {(current_page - 1) >= 3 && <div>...</div>}
 
-          <br />
-          Show Last Page: {(last_visible_page - current_page) >= 3 && <div><a href={`${WEBPAGE_URL}${last_visible_page}`}>{last_visible_page}</a></div>}
-        </div>
+        {(current_page - 1) >= 2 && <div><a href={`${WEBPAGE_URL}${current_page - 2}`}>{current_page - 2}</a></div>}
+
+        {(current_page - 1) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page - 1}`}>{current_page - 1}</a></div>}
+
+        <b>{pagination.current_page}</b>
+
+        {(last_visible_page - current_page) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page + 1}`}>{current_page + 1}</a></div>}
+
+        {(last_visible_page - current_page) >= 2 && <div><a href={`${WEBPAGE_URL}${current_page + 2}`}>{current_page + 2}</a></div>}
+
+        {(last_visible_page - current_page) >= 3 && <div>...</div>}
+
+        {(last_visible_page - current_page) >= 3 && <div><a href={`${WEBPAGE_URL}${last_visible_page}`}>{last_visible_page}</a></div>}
+      </div>
+      <div className='pagination-right'>
+        {(last_visible_page - current_page) >= 1 && <div><a href={`${WEBPAGE_URL}${current_page + 1}`}>Next</a></div>}
+      </div>
+    </div>
   )
 }
 

@@ -8,7 +8,7 @@ const JIKAN_URL = 'https://api.jikan.moe/v4'
 // Main Page || Home Page
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
-    let retrievePage = req.query.page ? req.query.page : 1;
+    let retrievePage = req.query.page !== null ? req.query.page : 1;
     console.log(retrievePage + " " + req.query.page);
     axios
         .get(JIKAN_URL +
@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
             retrievePage)
         .then(function (response) {
             let data = response.data;
+            console.log("DATA " + data);
             res.json(data);
         }); 
     console.log("--Successfully Retrieve the top 25 LNs--");

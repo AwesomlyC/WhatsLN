@@ -10,7 +10,7 @@ function LightNovels() {
     const [lightNovel, setLightNovel] = useState([]);
     const [pagination, setPagination] = useState([]);
     const [currentPage, setCurrentPage] = useSearchParams();
-    const page = currentPage.get('page');
+    const page = currentPage.get('page') ? currentPage.get('page')  : 1;
     const navigate = useNavigate();
     useEffect(() => {
         const fetchLightNovels = async () => {
