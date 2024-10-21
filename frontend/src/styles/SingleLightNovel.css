@@ -5,6 +5,9 @@
     /* background-color: yellow; */
     text-align: center;
 }
+.single-container{
+    width: 100%;
+}
 .details{
     display: flex;
     justify-content: left;

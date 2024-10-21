@@ -51,7 +51,7 @@ function SingleLightNovel() {
         return <div><h1>Loading...</h1></div>;
     }
   return (
-      <div className="container">
+      <div className="single-container">
           <div className="description-area">
               <div className="title">
                   <h3>Title: {singleLightNovel.title}</h3>

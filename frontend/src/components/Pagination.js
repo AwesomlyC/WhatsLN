@@ -6,7 +6,6 @@ function Pagination({ pagination }) {
     let current_page = pagination.current_page;
     let last_visible_page = pagination.last_visible_page;
     const WEBPAGE_URL = "http://localhost:3000/?page="
-    console.log(pagination);
   return (
     <div className='pagination'>
       <div className='pagination-left'>

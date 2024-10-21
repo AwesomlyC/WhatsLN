@@ -38,7 +38,14 @@ Add random manga/anime button to allow user to explore (Home Page) [x]
 ```
 Add Pagination (Home Page, Single Page, Search Page) [x]
 Add scroll-to-top button when user scroll passed a certain threshold (Home Page, Single Page, Search Page) [x]
-Add "Detailed" or "Grid" form for (Home Page) as to display the results [x]
+Add "Detailed"/"Grid"/"Compact" form for (Home Page) as to display the results [x]
+```
+
+# Phase 4
+```
+Add anime page to reflect random anime
+Link to MyAnimeList to retrieve user's information
+
 ```
 # Planned-to-do
 Fix Styling issues with Main Page, Single Page and Search Bar

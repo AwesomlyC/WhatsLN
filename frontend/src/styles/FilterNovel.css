@@ -58,16 +58,6 @@ select {
     justify-content: center;
     flex-direction: row;
     list-style-type: none;
-    /* display: flex;
-    justify-content: center;
-    flex-direction: row;
-    list-style-type: none;
-    flex-wrap: wrap;
-    background-color: pink;
-    padding: 0;
-    margin: 0;
-    padding: 2.5rem 5rem;
-    text-align: center; */
 }
 .found-novels li{
     /* margin-right: 7rem;
