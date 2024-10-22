@@ -1,12 +1,12 @@
 .filter-menu{
-    background: gray;
-
+    background: #242428;
+    color: white;
     padding: 2.5rem;
     margin: 6rem;
 }
 
 .filter-menu .options{
-    background: green;
+    background: rgba(255,255,255, 0.1);
     display: flex;
     gap: 2.5rem;
     overflow: hidden;
@@ -14,6 +14,9 @@
     padding: 2rem;
 }
 
+option{
+    background: black;
+}
 .filter-menu .search-bar{
     background: yellow;
     width: 100%;
@@ -24,7 +27,7 @@ select {
     -moz-appearance: none;
     appearance: none;
     
-    background-color: brown;
+    background-color: inherit;
     border: none;
     cursor: pointer;
     width: auto;
@@ -35,22 +38,21 @@ select {
     max-width: 140px;
     box-shadow: none;
     color: #ffdd95;
+    width: 90%;
 }
 
 .box{
-    border: 2px solid darkblue;
+    border: 1px solid #575a64;
     width: 200px;
     display: flex;
-    
     gap: 20px;
     padding: 5px;
 }
-
 .box .label {
-    color: white;
     float: left;
     font-weight: 500;
     margin-left: 5px;
+    min-width: 50px;
 }
 
 .found-novels{
@@ -59,7 +61,28 @@ select {
     flex-direction: row;
     list-style-type: none;
 }
-.found-novels li{
-    /* margin-right: 7rem;
-    flex: 0 0 calc(16.66% - 10px);  */
+
+.filter-novel {
+    background: #ffdd95;
+    color: #111;
+    border-color: #ffdd95;
+    box-shadow: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 16px;
+    padding: .5rem 1rem;
+    vertical-align: center;
+}
+
+.result_title .result{
+    text-align: left;
+    color: #ffdd95;
+    font-size: 32px;
+}
+.result_title{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    align-items: flex-end;
+    font-size: 18px;
 }

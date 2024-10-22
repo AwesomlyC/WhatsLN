@@ -22,7 +22,7 @@ function Header() {
             <div className="navbar-center" ref={searchRef}>
                 <div className="search_bar">
                     <SearchBar setResults={setResults} setShowResult={setShowResult} searchRef={searchRef} />
-                    <button onClick={(e) => navigate('/filter')}>Filter</button>
+                    <button className='filter-button' onClick={(e) => navigate('/filter')}>Filter</button>
                 </div>
                 <SearchResultsList results={searchResults} showResults={showResults} />
             </div>

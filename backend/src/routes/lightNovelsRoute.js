@@ -76,24 +76,24 @@ router.get('/filter', (req, res) => {
     let type = req.query.type != "all" ? req.query.type : ``;
     let status = req.query.status != "all" ? req.query.status : ``;
     let sfw = req.query.sfw;
+    let query = req.query.q;
 
 
     let queryParams = [
         type ? `type=${type}` : '',
         status ? `status=${status}` : '',
-        sfw ? `sfw=${sfw}` : ''
+        sfw ? `sfw=${sfw}` : '',
+        query ? `q=${query}`: ''
       ].filter(Boolean).join('&');
       
 
     
-    console.log(JIKAN_URL + `/manga?${queryParams}`)
+    console.log(JIKAN_URL + `/manga?${queryParams}` + " -- " + query);
     axios
         .get(JIKAN_URL + `/manga?${queryParams}`)
         .then(function (response) {
             res.send(response.data);
-            // console.log(response.data)
         })
-    // res.send("pass");
 });
 
 // Fetch Random Manga Route
