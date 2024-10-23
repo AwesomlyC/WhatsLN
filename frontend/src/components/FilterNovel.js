@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './../styles/FilterNovel.css'
 import axios from 'axios';
-
+import NovelResults from './NovelResults';
+import ViewToggle from './ViewToggle';
 import { FaSearch } from 'react-icons/fa'
 
 const API_URL = 'http://localhost:5000/api/light-novels'
@@ -15,16 +16,16 @@ function FilterNovel() {
     
     const [numOfResults, setNumOfResults] = useState(0);
     const [novels, setNovels] = useState([]);
+    
+    const [viewIndex, setViewIndex] = useState(0);
 
     const findNovels = (event) => {
-        console.log("FINDNOVELS: " + query);
         let queryParams = [
             type ? `type=${type}` : '',
             status ? `status=${status}` : '',
             sfw ? `sfw=${sfw}` : '',
             query ? `q=${query}` : ''
             ].filter(Boolean).join('&');
-        console.log("FINDNOVELS: " + queryParams);
         
         axios.get(API_URL + `/filter?${queryParams}`).then(function (response) {
             setNovels(response.data.data);
@@ -36,9 +37,10 @@ function FilterNovel() {
     const handleChange = (value) => {
         setQuery(value);
     }
+
     return (
         <div className="filter-menu">
-
+                <ViewToggle setViewIndex={setViewIndex} />
             <h3>Filter</h3>
             <div className='options'>
                 
@@ -81,8 +83,9 @@ function FilterNovel() {
                     onChange={(e) => handleChange(e.target.value)}
                 />
             </div>
-
-            <button className='filter-novel' onClick={(e) => findNovels(e)}><b>Filter</b></button>
+                <button className='filter-novel' onClick={(e) => findNovels(e)}>
+                    <b>Filter</b>
+                </button>
             </div>
 
             <div className="results">
@@ -90,18 +93,7 @@ function FilterNovel() {
                     <text className='result'>Results</text>
                     <text className='result_count'>{ numOfResults} results</text>
                 </div>
-                <div className="recommendations" id='filter'>
-                    {/* Add a text field for when there are no recommendations */}
-                    {novels.map(novel => (
-                        <li key={novel.mal_id}>
-                            <img src={novel.images.jpg.image_url} alt={novel.images.webp.image_url} />
-                            <h3>
-                                <a href={`http://localhost:3000/single-ln?id=${novel.mal_id}`}>{novel.title}</a>
-                            </h3>
-                        </li>
-                    ))}
-                </div>
-
+                <NovelResults results={novels} viewIndex={viewIndex} />
             </div>
         </div>
   )

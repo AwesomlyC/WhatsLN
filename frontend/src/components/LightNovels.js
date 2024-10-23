@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import { useNavigate, useSearchParams } from 'react-router-dom'; 
 import Pagination from './Pagination';
+import NovelResults from './NovelResults';
+import ViewToggle from './ViewToggle';
 import './../styles/LightNovels.css'
 
-// Icons
-import { MdOutlineViewCompact } from "react-icons/md";
-import { FaList } from "react-icons/fa6";
-import { MdGridView } from "react-icons/md";
+
 const SERVER_URL = `http://localhost:5000/api/light-novels`
 
 function LightNovels() {
@@ -16,7 +15,6 @@ function LightNovels() {
     const [pagination, setPagination] = useState([]);
     const [currentPage, setCurrentPage] = useSearchParams();
     
-    const views = ['detailed', 'grid', 'compact'];
     const [viewIndex, setViewIndex] = useState(0);
 
     const page = currentPage.get('page') ? currentPage.get('page')  : 1;
@@ -65,38 +63,8 @@ function LightNovels() {
                 console.log("Error with fetching random manga...");
             })
     }
-    function truncateSynopsis(synopsis) {
-        if (synopsis) {
-            if (views[viewIndex] === 'detailed') {
-                return synopsis;
-            }
-            if (synopsis.length > 100) {
-                return synopsis.slice(0, 300) + "..."
-            }
-            return synopsis;
-        } else {
-            return "No synopsis information has been found..."
-        }
-    }
 
 
-    const storeViewIndex = (new_index) => {
-        localStorage.setItem('viewIndex', new_index);
-    }
-    const toggleList = () => {
-        setViewIndex(0);
-        storeViewIndex(0);
-    }
-
-    const toggleGrid = () => {
-        setViewIndex(1);
-        storeViewIndex(1);
-    }
-
-    const toggleCompact = () => {
-        setViewIndex(2);
-        storeViewIndex(2);
-    }
     return (
         <div>
             <div className='header'>
@@ -105,74 +73,9 @@ function LightNovels() {
                 <button className='fetch-random' onClick={fetchRandomAnime}>Random Anime</button>
             </div>
             
-            <div>
-                <div className='view-buttons'>
-
-                    <button onClick={toggleList} className='icon' title='List View'>
-                        <FaList />
-
-                    </button>
-                    <button onClick={toggleGrid} className='icon' title='Grid View'>
-                        <MdGridView />
-
-                    </button>
-                    <button onClick={toggleCompact} className='icon' title='Compact View'>
-                        <MdOutlineViewCompact />
-                    </button>
-                </div>
-                <div className="light-novels">
-                    <ul className={`container ${views[viewIndex]}-view`}>
-                        {lightNovel.map(novel => (
-                            <li>
-                                {views[viewIndex] === "compact" ?
-                                    <div className="compact-view">
-                                        <div className='novel-picture'>
-                                            <img src={novel.images.jpg.image_url} alt="picture_holder" />
-                                        </div>
-                                        <div className='small-description'>
-                                            <h3 className="title">
-                                                <a href={`http://localhost:3000/single-ln?id=${novel.mal_id}`}>{novel.title}</a>
-                                            </h3>
-                                            <h5 className="title"><a href={`${novel.url}`}>Link to MyAnimeList's Page</a></h5>
-                                        </div>
-                                    </div>
-                                    :
-                                    <div className="novel">
-                                        <div className='novel-picture'>
-                                            <img src={novel.images.jpg.image_url} alt="picture_holder" />
-                                        </div>
-                                        <div className='description'>
-                                            <h3 className="title">
-                                                <a href={`http://localhost:3000/single-ln?id=${novel.mal_id}`}>{novel.title}</a>
-                                            </h3>
-                                            <h5 className="title"><a href={`${novel.url}`}>Link to MyAnimeList's Page</a></h5>
-    
-                                            <div className="novel-synopsis">
-                                                <h2><em>Synopsis:</em></h2>
-                                                {truncateSynopsis(novel.synopsis)}
-                                            </div>
-                                            <div className='genres'>
-                                                <b>Genres: </b>{novel.genres.length > 0 ? novel.genres.map(item => item.name).join(', ') : "N/A"}
-                                            </div>
-                                            <div className='author'>
-                                                <b>Author(s): </b> {novel.authors.length > 0 ? novel.authors.map(author => author.name).join(', ') : "N/A"}
-                                            </div>
-                                            <div className='status'>
-                                                <b>Status: </b> {novel.status}
-                                            </div>
-                                            <div className='type'>
-                                                <b>Type: </b> {novel.type}
-                                            </div>
-                                            <div className='score'>
-                                                <b>Score: </b> {novel.score !== null ? novel.score : "N/A"}
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            <div className='main-results'>
+                <ViewToggle setViewIndex={setViewIndex} />
+                <NovelResults results={lightNovel} viewIndex={viewIndex} />
             </div>
             <Pagination pagination={pagination} />
         </div>

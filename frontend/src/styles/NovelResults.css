@@ -1,0 +1,72 @@
+.light-novels{
+    max-width: 100%;
+    margin: 0 50px;
+    color: #333333;
+}
+
+.novel{
+    display: flex;
+    padding: 0rem 1.25rem;   
+    justify-content: center;
+    align-items: center; 
+}
+
+
+.container.detailed-view {
+    flex-direction: column;
+}
+.container.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 10px;
+    transition: all 0.5s ease;
+}
+.container.compact-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+
+    gap: 20px;
+    transition: all 0.5s ease;
+}
+
+.compact-view{
+    display: block;
+    text-align: center;
+}
+.compact-view .novel-picture{
+    margin-top: 10%;
+}
+
+.compact-view .small-description{
+    font-size: 14px;
+}
+li {
+    background-color: #d8c3a5;
+    list-style-type: none;
+}
+
+li:nth-child(odd) {
+    background-color:#8aa399;
+}
+.description{
+    padding: 2.5rem;
+    width: 100%;
+}
+
+.novel-synopsis{
+    padding-bottom: 2rem;
+}
+
+h3.title{
+    text-align: center;
+}
+
+
+a:visited{
+    color: blue;
+}
+
+.header{
+    display: flex;
+    justify-content: space-around;
+}

@@ -86,3 +86,7 @@ select {
     align-items: flex-end;
     font-size: 18px;
 }
+
+#filter{
+    background: inherit;
+}
