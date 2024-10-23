@@ -105,20 +105,37 @@ router.get('/random/manga', (req, res) => {
         })
         .catch(error => {
             res.send("error");
-    })
-})
+        })
+});
 
 
 // Fetch Random Anime Route
 router.get('/random/anime', (req, res) => {
     axios
-    .get(JIKAN_URL + "/random/anime")
-    .then(function (response) {
-        res.send("single-ln?id=" + response.data.data.mal_id);
+        .get(JIKAN_URL + "/random/anime")
+        .then(function (response) {
+            res.send("single-ln?id=" + response.data.data.mal_id);
+        })
+        .catch(error => {
+            res.send("error");
+        })
+});
+
+router.get('/test', (req, res) => {
+    headers = { 'X-MAL-CLIENT-ID': '6be04cad591aae12fa46acb1bf9b12aa', 'Authorization': 'Bearer ANOTHER_ACCESS_TOKEN' }
+    // console.log(`https://api.myanimelist.net/v2/manga?q=berserk`)
+    axios
+        .get(`https://api.myanimelist.net/v2/manga/ranking?ranking_type=all&limit=100`, {
+            headers:
+            {
+                'X-MAL-CLIENT-ID': '6be04cad591aae12fa46acb1bf9b12aa'
+                // 'Authorization': 'Bearer ANOTHER_ACCESS_TOKEN'
+            }
+        })
+        .then(function (response) {
+            console.log("WE");
+            res.send(response.data);
     })
-    .catch(error => {
-        res.send("error");
-})
-})
+});
 
 module.exports = router;

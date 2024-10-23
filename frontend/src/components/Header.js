@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './../styles/Header.css'
 import { FaHome } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
 import SearchBar from './SearchBar';
 import SearchResultsList from './SearchResultsList';
@@ -27,12 +28,8 @@ function Header() {
                 <SearchResultsList results={searchResults} showResults={showResults} />
             </div>
             <div className="navbar-right">
-                <a href="/" className="cart-icon">
-                    <i className="fas fa-shopping-cart"></i>
-                    <span className="cart-count">0</span>
-                </a>
-                <a href="/" className="user-icon">
-                    <i className="fas fa-user"></i>
+                <a href='/account'>
+                    <FaUserCircle size={25} color='white' />
                 </a>
             </div>
         </nav>
