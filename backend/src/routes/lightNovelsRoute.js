@@ -3,8 +3,11 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
+const qs = require('qs');   
 
 const JIKAN_URL = 'https://api.jikan.moe/v4'
+const CLIENT_ID = '6be04cad591aae12fa46acb1bf9b12aa'
+const HEADERS = { 'X-MAL-CLIENT-ID': CLIENT_ID }
 // Main Page || Home Page
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
@@ -122,20 +125,45 @@ router.get('/random/anime', (req, res) => {
 });
 
 router.get('/test', (req, res) => {
-    headers = { 'X-MAL-CLIENT-ID': '6be04cad591aae12fa46acb1bf9b12aa', 'Authorization': 'Bearer ANOTHER_ACCESS_TOKEN' }
-    // console.log(`https://api.myanimelist.net/v2/manga?q=berserk`)
-    axios
-        .get(`https://api.myanimelist.net/v2/manga/ranking?ranking_type=all&limit=100`, {
-            headers:
-            {
-                'X-MAL-CLIENT-ID': '6be04cad591aae12fa46acb1bf9b12aa'
-                // 'Authorization': 'Bearer ANOTHER_ACCESS_TOKEN'
-            }
-        })
-        .then(function (response) {
-            console.log("WE");
-            res.send(response.data);
-    })
+    axios.get(`https://api.myanimelist.net/v2/manga/ranking?ranking_type=all&limit=100`,
+        { headers: HEADERS }
+    ).then(function (response) {
+        res.send(response.data);
+    }).catch(error => {
+        console.log("Failed: " + error);
+        res.status(500).send("Error occurred");
+    });
 });
 
+
+
+router.post('/testoauth', async (req, res) => {
+    const { clientId, clientSecret, grant_type, code, redirect_uri, code_verifier } = req.body;
+  
+    // Prepare data for URL-encoded format
+    const data = qs.stringify({
+      grant_type,
+      code,
+      redirect_uri,
+      client_id: clientId,
+      client_secret: clientSecret,
+      code_verifier
+    });
+    // console.log(code_verifier);
+    try {
+      const response = await axios.post('https://myanimelist.net/v1/oauth2/token', data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+  
+      // Send the token back to the frontend
+      console.log("Token exchange successful:", response.data);
+      res.json(response.data);
+    } catch (error) {
+      console.error('Error during token exchange:', error.response?.data || error.message);
+    //   res.status(error.response?.status || 500).send(error.response?.data || 'Error exchanging token');
+        res.send(code_verifier + "\n " + code);
+    }
+  });
 module.exports = router;

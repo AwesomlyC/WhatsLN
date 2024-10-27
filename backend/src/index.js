@@ -14,6 +14,11 @@ app.use(cors());
 
 // API routes
 // This will set up the api endpoint to be localhost:3000/api/light-novels
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 app.use('/api/light-novels', lightNovelsRoute);
 
 // GET/POST/PUT/DELETE are called via app.get/post/put/delete function calls
