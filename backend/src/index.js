@@ -6,7 +6,7 @@ const cors = require('cors')
 const lightNovelsRoute = require('./routes/lightNovelsRoute');
 
 const app = express();
-const PORT = process.env.PORT || 5000;    // What port to listen to
+const PORT = 5000;
 
 // Middleware
 app.use(express.json());    // To Parse JSON payloads
@@ -22,7 +22,7 @@ app.use('/api/light-novels', lightNovelsRoute);
 // Response --> Define information that we want to send
 app.get('/', (req, res) => {
   res.send(`
-    <b>welcome to the API</b>   
+    <b>welcome to the API</b>
     </br> <a href="http://localhost:5000/api/light-novels">Go to API</a>
     </br>
     <a href="http://localhost:5000/api/light-novels/18072">Testing Single Page on ID: 18072</a>
