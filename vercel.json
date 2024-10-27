@@ -1,0 +1,12 @@
+{
+    "projects": [
+      {
+        "src": "frontend",
+        "use": "@vercel/static-build"
+      },
+      {
+        "src": "backend/src",
+        "use": "@vercel/node"
+      }
+    ]
+  }
