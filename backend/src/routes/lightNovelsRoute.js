@@ -1,13 +1,15 @@
 // Purpose of this file is to set up routes and associate them with controller functions
+// const pkceChallenge = require('pkce-challenge');
+const express = require('express');
+const axios = require('axios');
+const qs = require('qs');
+const session = require('express-session');
+const crypto = require('crypto');
 
-const express = require("express");
-const axios = require("axios");
+
+
 const router = express.Router();
-const qs = require('qs');   
-
 const JIKAN_URL = 'https://api.jikan.moe/v4'
-const CLIENT_ID = '6be04cad591aae12fa46acb1bf9b12aa'
-const HEADERS = { 'X-MAL-CLIENT-ID': CLIENT_ID }
 // Main Page || Home Page
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
@@ -22,6 +24,7 @@ router.get("/", async (req, res) => {
             console.log("DATA " + data);
             res.json(data);
         }); 
+
     console.log("--Successfully Retrieve the top 25 LNs--");
 });
 
@@ -136,34 +139,97 @@ router.get('/test', (req, res) => {
 });
 
 
+router.post('/testoauth', (req, res) => {
+    const { authorisation_code, code_verifier } = req.body; // No need to send clientId and clientSecret here, they should come from process.env
+    const baseURI = 'https://myanimelist.net/v1/oauth2/token';
+    const data = {
+        'client_id': process.env.CLIENT_ID, // Ensure these environment variables are set correctly
+        'client_secret': process.env.CLIENT_SECRET,
+        'code': authorisation_code, // Ensure this code is the one received from the initial request
+        // redirect_uri: process.env.REDIRECT_URI, // Must match the initial authorization request
+        'code_verifier': code_verifier, // Must match the original code_verifier
+        'grant_type': 'authorization_code'
 
-router.post('/testoauth', async (req, res) => {
-    const { clientId, clientSecret, grant_type, code, redirect_uri, code_verifier } = req.body;
-  
-    // Prepare data for URL-encoded format
-    const data = qs.stringify({
-      grant_type,
-      code,
-      redirect_uri,
-      client_id: clientId,
-      client_secret: clientSecret,
-      code_verifier
+    };
+    console.log(code_verifier);
+    axios.post(`${baseURI}`,
+        qs.stringify(data)
+    
+    ).then(response => {
+        console.log(response);
+    }).catch(error => {
+        console.error('Error during token exchange:', error.response?.data || error.message);
+        console.error('Status Code:', error.response?.status);
     });
-    // console.log(code_verifier);
-    try {
-      const response = await axios.post('https://myanimelist.net/v1/oauth2/token', data, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-  
-      // Send the token back to the frontend
-      console.log("Token exchange successful:", response.data);
-      res.json(response.data);
-    } catch (error) {
-      console.error('Error during token exchange:', error.response?.data || error.message);
-    //   res.status(error.response?.status || 500).send(error.response?.data || 'Error exchanging token');
-        res.send(code_verifier + "\n " + code);
+});
+
+function getNewCodeVerifier() {
+    const verifier = crypto.randomBytes(32).toString('base64url');
+    return verifier.slice(0, 128);
+}
+
+function getCodeChallenge(codeVerifier) {
+    return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
+}
+
+router.get('/account', async (req, res) => {
+    const redirect_uri = `http://localhst:5000/api/light-novels/callback`
+    const codeVerifier = getNewCodeVerifier();
+    const codeChallenge = codeVerifier
+    const data = {
+        codeVerifier: codeVerifier
     }
-  });
+    console.log(data);
+    req.session.codeVerifier = codeVerifier
+
+    const url =
+        `https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&code_challenge=${codeVerifier.toString()}`
+    res.redirect(url);
+});
+
+router.get('/callback', async (req, res) => {
+    const { code } = req.query;
+    const codeVerifier = req.session.codeVerifier;
+    const tokenUrl = 'https://myanimelist.net/v1/oauth2/token';
+    const data = {
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
+        code: code,
+        code_verifier: codeVerifier,
+        grant_type: 'authorization_code',
+    };
+    console.log(data);
+    try {
+        // const response = await fetch(tokenUrl, {
+        //     method: "POST",
+        //     headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+        //     body: new URLSearchParams(data).toString()
+        // });
+        const response = await axios.post(
+            'https://myanimelist.net/v1/oauth2/token',
+            new URLSearchParams({
+            client_id: process.env.CLIENT_ID,
+            grant_type: "authorization_code",
+            code: code,
+            code_verifier: codeVerifier,
+            client_secret: process.env.CLIENT_SECRET,
+            }),
+            )
+        console.log(response.data);
+        if (!response.ok) {
+            // console.log("Fetch error: " + errorData.message)
+
+            // const errorData = await response.json();
+            // console.log(response);
+            throw new Error("Fetch error: " + response.toString())
+        }
+        // Store access token in session or database
+        // req.session.accessToken = response.data.access_token;
+
+        res.send('Token received and stored! You can now access user data.');
+    } catch (error) {
+        console.error('Error exchanging token:', error.response?.data || error.message, error.status);
+        res.redirect('http://localhost:3000/account')
+    }
+});
 module.exports = router;

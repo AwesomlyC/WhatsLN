@@ -3,6 +3,7 @@
 
 const express = require('express');
 const cors = require('cors')
+const session = require('express-session');
 const lightNovelsRoute = require('./routes/lightNovelsRoute');
 
 const app = express();
@@ -12,13 +13,20 @@ const PORT = process.env.PORT || 5000;    // What port to listen to
 app.use(express.json());    // To Parse JSON payloads
 app.use(cors());
 
+require('dotenv').config();
+app.use(session({
+  secret: 'your-secret', // Replace with your own secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 // API routes
 // This will set up the api endpoint to be localhost:3000/api/light-novels
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
 app.use('/api/light-novels', lightNovelsRoute);
 
 // GET/POST/PUT/DELETE are called via app.get/post/put/delete function calls
