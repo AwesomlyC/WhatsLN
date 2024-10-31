@@ -7,7 +7,7 @@ import Header from './components/Header';
 import FilterNovel from './components/FilterNovel';
 import SearchPage from './components/SearchPage';
 import ScrollButton from './components/ScrollButton';
-import Account from './components/Account';
+import Login from './components/Login';
 import Callback from './components/Callback'
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
             <Route path='/single-ln' Component={SingleLightNovel} />
             <Route path='/filter' Component={FilterNovel} />
             <Route path='/search' Component={SearchPage} />
-            <Route path='/account' Component={Account} />
+            <Route path='/login' Component={Login} />
             <Route path='/Callback' Component={Callback} />
           </Routes>
         </div>

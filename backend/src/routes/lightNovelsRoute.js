@@ -127,42 +127,8 @@ router.get('/random/anime', (req, res) => {
         })
 });
 
-router.get('/test', (req, res) => {
-    axios.get(`https://api.myanimelist.net/v2/manga/ranking?ranking_type=all&limit=100`,
-        { headers: HEADERS }
-    ).then(function (response) {
-        res.send(response.data);
-    }).catch(error => {
-        console.log("Failed: " + error);
-        res.status(500).send("Error occurred");
-    });
-});
-
-
-router.post('/testoauth', (req, res) => {
-    const { authorisation_code, code_verifier } = req.body; // No need to send clientId and clientSecret here, they should come from process.env
-    const baseURI = 'https://myanimelist.net/v1/oauth2/token';
-    const data = {
-        'client_id': process.env.CLIENT_ID, // Ensure these environment variables are set correctly
-        'client_secret': process.env.CLIENT_SECRET,
-        'code': authorisation_code, // Ensure this code is the one received from the initial request
-        // redirect_uri: process.env.REDIRECT_URI, // Must match the initial authorization request
-        'code_verifier': code_verifier, // Must match the original code_verifier
-        'grant_type': 'authorization_code'
-
-    };
-    console.log(code_verifier);
-    axios.post(`${baseURI}`,
-        qs.stringify(data)
-    
-    ).then(response => {
-        console.log(response);
-    }).catch(error => {
-        console.error('Error during token exchange:', error.response?.data || error.message);
-        console.error('Status Code:', error.response?.status);
-    });
-});
-
+// -------------------------------------------------------------------------- // 
+// OAuth 2.0 Flow
 function getNewCodeVerifier() {
     const verifier = crypto.randomBytes(32).toString('base64url');
     return verifier.slice(0, 128);
@@ -172,16 +138,11 @@ function getCodeChallenge(codeVerifier) {
     return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
 }
 
-router.get('/account', async (req, res) => {
-    const redirect_uri = `http://localhst:5000/api/light-novels/callback`
+// For MyAnimeList API
+// The codeVerifier is the same as the codeChallenge
+router.get('/login', async (req, res) => {
     const codeVerifier = getNewCodeVerifier();
-    const codeChallenge = codeVerifier
-    const data = {
-        codeVerifier: codeVerifier
-    }
-    console.log(data);
     req.session.codeVerifier = codeVerifier
-
     const url =
         `https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&code_challenge=${codeVerifier.toString()}`
     res.redirect(url);
@@ -190,46 +151,32 @@ router.get('/account', async (req, res) => {
 router.get('/callback', async (req, res) => {
     const { code } = req.query;
     const codeVerifier = req.session.codeVerifier;
-    const tokenUrl = 'https://myanimelist.net/v1/oauth2/token';
-    const data = {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        code: code,
-        code_verifier: codeVerifier,
-        grant_type: 'authorization_code',
-    };
-    console.log(data);
-    try {
-        // const response = await fetch(tokenUrl, {
-        //     method: "POST",
-        //     headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-        //     body: new URLSearchParams(data).toString()
-        // });
-        const response = await axios.post(
-            'https://myanimelist.net/v1/oauth2/token',
-            new URLSearchParams({
+
+    await axios.post(
+        'https://myanimelist.net/v1/oauth2/token',
+        new URLSearchParams({
             client_id: process.env.CLIENT_ID,
             grant_type: "authorization_code",
             code: code,
             code_verifier: codeVerifier,
             client_secret: process.env.CLIENT_SECRET,
-            }),
-            )
-        console.log(response.data);
-        if (!response.ok) {
-            // console.log("Fetch error: " + errorData.message)
-
-            // const errorData = await response.json();
-            // console.log(response);
-            throw new Error("Fetch error: " + response.toString())
-        }
-        // Store access token in session or database
-        // req.session.accessToken = response.data.access_token;
-
-        res.send('Token received and stored! You can now access user data.');
-    } catch (error) {
-        console.error('Error exchanging token:', error.response?.data || error.message, error.status);
-        res.redirect('http://localhost:3000/account')
-    }
+        }),).then(response => {
+            // Store access token in session or database
+            req.session.access_token = response.data.access_token;
+            res.redirect('http://localhost:3000/login');
+        }).catch(error => {
+            console.error('Error exchanging token:', error.response?.data || error.message, error.status);
+            res.redirect('http://localhost:3000/login');
+        })
 });
+
+// -------------------------------------------------------------------------- // 
+router.get('/accountinfo', async (req, res) => {
+    console.log("test3");
+    console.log(req.session.codeVerifier);
+    console.log(req.session.access_token);
+    console.log(req.session);
+    res.send(`<p>${req.session.access_token}</p>`);
+})
+
 module.exports = router;

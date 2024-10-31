@@ -28,7 +28,7 @@ function Header() {
                 <SearchResultsList results={searchResults} showResults={showResults} />
             </div>
             <div className="navbar-right">
-                <a href='/account'>
+                <a href='/login'>
                     <FaUserCircle size={25} color='white' />
                 </a>
             </div>

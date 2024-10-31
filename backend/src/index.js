@@ -11,22 +11,23 @@ const PORT = process.env.PORT || 5000;    // What port to listen to
 
 // Middleware
 app.use(express.json());    // To Parse JSON payloads
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Your frontend URL
+  credentials: true // Allow credentials to be included
+}));
 
 require('dotenv').config();
 app.use(session({
   secret: 'your-secret', // Replace with your own secret
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
+  cookie: {
+    maxAge: 60 * 60 * 1000, // Cookie last 1 hr
+    secure: false,
+  } 
 }));
 // API routes
 // This will set up the api endpoint to be localhost:3000/api/light-novels
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   next();
-// });
 app.use('/api/light-novels', lightNovelsRoute);
 
 // GET/POST/PUT/DELETE are called via app.get/post/put/delete function calls
