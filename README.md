@@ -44,7 +44,8 @@ Add "Detailed"/"Grid"/"Compact" form for (Home Page) as to display the results [
 # Phase 4
 ```
 Add anime page to reflect random anime
-Link to MyAnimeList to retrieve user's information
+Link to MyAnimeList to retrieve user's information (via OAuth 2.0)
+Ability to add/delete/update anime/manga using MyAnimeList API
 
 ```
 # Planned-to-do

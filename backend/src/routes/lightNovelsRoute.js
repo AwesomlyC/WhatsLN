@@ -2,8 +2,6 @@
 // const pkceChallenge = require('pkce-challenge');
 const express = require('express');
 const axios = require('axios');
-const qs = require('qs');
-const session = require('express-session');
 const crypto = require('crypto');
 
 
@@ -163,20 +161,108 @@ router.get('/callback', async (req, res) => {
         }),).then(response => {
             // Store access token in session or database
             req.session.access_token = response.data.access_token;
-            res.redirect('http://localhost:3000/login');
+            res.redirect('http://localhost:3000/account');
         }).catch(error => {
             console.error('Error exchanging token:', error.response?.data || error.message, error.status);
-            res.redirect('http://localhost:3000/login');
+            res.redirect('http://localhost:3000');
         })
 });
 
 // -------------------------------------------------------------------------- // 
-router.get('/accountinfo', async (req, res) => {
-    console.log("test3");
-    console.log(req.session.codeVerifier);
+
+router.get('/account/info', async (req, res) => {
+    const url = `https://api.myanimelist.net/v2/users/@me`
+    const info = {
+        login: false,
+        redirect: `http://localhost:5000/api/light-novels/login`
+    }
+    console.log(req.session.access_token);
+    if (req.session.access_token) {
+        console.log("GETTING AXIOS>GET");
+        await axios.get(url, {
+            headers: { 'Authorization': `Bearer ${req.session.access_token}` }
+        }).then(response => {
+            console.log(response.data);
+            res.json(response.data);
+        }).catch(error => {
+            console.log("ERROR: " + error);
+        })
+    }
+    else {
+        console.log("not signed in");
+        console.log(req.session.access_token);
+        res.json(info);
+    }
+})
+
+router.get('/account/mangalist', async (req, res) => {
+    const url = `https://api.myanimelist.net/v2/users/@me/mangalist`
+
+    axios.get(url, {
+        headers: { 'Authorization': `Bearer ${req.session.access_token}` }
+    }).then(response => {
+        console.log(response.data);
+        res.json(response.data);
+    }).catch(error => {
+        console.log("Error: " + error);
+    })
+});
+
+router.get('/account/animelist', async (req, res) => {
+    const url = `https://api.myanimelist.net/v2/users/@me/animelist?limit=100`
+
+    axios.get(url, {
+        headers: { 'Authorization': `Bearer ${req.session.access_token}` }
+    }).then(response => {
+        res.json(response.data);
+    }).catch(error => {
+        console.log("Error: " + error);
+    })
+});
+
+// Able to perform update on both anime/manga
+// If the anime/manga is not in user list, it will add it instead
+router.get('/account/update/:type/:id', async (req, res) => {
+    const id = req.params.id;
+    let type = req.params.type;
+    type = type.charAt(0).toLowerCase() + type.slice(1);        // Lowercase first letter
+    const {status, score} = req.query;
+    const url = `https://api.myanimelist.net/v2/${type}/${id}/my_list_status`
+    console.log(url);
     console.log(req.session.access_token);
     console.log(req.session);
-    res.send(`<p>${req.session.access_token}</p>`);
-})
+    const data = new URLSearchParams({
+        ...(status && { status }),
+        ...(score !== '' ? parseInt(score) : 0)
+    })
+    await axios.put(url, data, {
+        headers: { 'Authorization': `Bearer ${req.session.access_token}` }
+    }).then(response => {
+        console.log(response.data);
+    }).catch(error => {
+        console.log("Error: " + error);
+        res.status(400).json({ error: "Not signed in" });
+    });
+});
+
+// Delete Manga/Anime from User List
+router.get('/account/delete/:type/:id', async (req, res) => {
+    const id = req.params.id;
+    let type = req.params.type;
+    type = type.charAt(0).toLowerCase() + type.slice(1);        // Lowercase first letter
+
+    const url = `https://api.myanimelist.net/v2/${type}/${id}/my_list_status`
+    console.log(url);
+    console.log(req.session.access_token);
+    console.log(req.session);
+    await axios.delete(url, {
+        headers: { 'Authorization': `Bearer ${req.session.access_token}` }
+    }).then(response => {
+        console.log(response.data);
+    }).catch(error => {
+        console.log("Error: " + error);
+    })
+});
+
 
 module.exports = router;

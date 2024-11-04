@@ -14,6 +14,9 @@ function SingleLightNovel() {
     const [retrieveRecommendation, setRetrieval] = useState(true);
     const [searchParams] = useSearchParams();
     let id = searchParams.get('id');
+
+    const [buttonText, setButtonText] = useState('Add to List');
+    const [isDisabled, setIsDisabled] = useState(false);
     
     useEffect(() => {
         const fetchSingleLightNovel = async () => {
@@ -46,6 +49,33 @@ function SingleLightNovel() {
             fetchRecommendation();
     }, []);
 
+    const addToUserList = () => {
+        console.log(singleLightNovel.type);
+        console.log(singleLightNovel.mal_id);
+
+        const now = new Date().getTime();
+        const timeStamp = localStorage.getItem('loginTime');
+        console.log(now - timeStamp);
+        console.log(60 * 60 * 1000);
+        if (timeStamp === null || now - timeStamp > (60 * 60 * 1000)) {
+            localStorage.setItem('loginTime', now);
+            window.location.href = `${process.env.REACT_APP_BACKEND_API}/login`;
+        } else {
+            const type = singleLightNovel.type;
+            const mal_id = singleLightNovel.mal_id;
+            axios.get(
+                `${process.env.REACT_APP_BACKEND_API}/account/update/${type}/${mal_id}`, { withCredentials: true })
+                .then(response => {
+                    console.log(response);
+                    setButtonText("Added Successfully!");
+                    setIsDisabled(true);
+                }).catch(error => {
+                    console.log("ERROR: " + error);
+                    localStorage.removeItem('loginTime');
+                    window.location.href = `${process.env.REACT_APP_BACKEND_API}/login`;
+                });
+        }
+    }
     if (loading || retrieveRecommendation) {
         console.log(loading + " " + retrieveRecommendation);
         return <div><h1>Loading...</h1></div>;
@@ -61,6 +91,7 @@ function SingleLightNovel() {
               <div className="details">
                   <div className="image">
                       <img src={singleLightNovel.images.jpg.image_url} alt={singleLightNovel.images.webp.image_url} />
+                        <button onClick={addToUserList} disabled={isDisabled}>{buttonText}</button>
                   </div>
                   <div className='detail'>
                       <div className="novel-synopsis">

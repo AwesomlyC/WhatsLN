@@ -9,6 +9,7 @@ import SearchPage from './components/SearchPage';
 import ScrollButton from './components/ScrollButton';
 import Login from './components/Login';
 import Callback from './components/Callback'
+import Account from './components/Account';
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
             <Route path='/search' Component={SearchPage} />
             <Route path='/login' Component={Login} />
             <Route path='/Callback' Component={Callback} />
+            <Route path='/account' Component={Account} />
           </Routes>
         </div>
         < ScrollButton />

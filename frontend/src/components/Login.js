@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-const Account = () => {
+const Login = () => {
     const test = async () => {
         // TEST ACCOUNT
         // USERNAME --> random_guy215
         // Password --> Normal
-        window.location.href= `http://localhost:5000/api/light-novels/login`
+        window.location.href= `${process.env.REACT_APP_BACKEND_API}/login`
     }
 
     const testCallback = () => {
         window.location.href = '/Callback';
     }
     const testAccountinfo = () => {
-        axios.get('http://localhost:5000/api/light-novels/accountinfo', { withCredentials: true })
-            .then(response => {
-                console.log(response.data);
-            }).catch(error => {
-                console.error('error: ' + error);
-             })
+        window.location.href = '/account'
     }
     return (
          <div>
@@ -31,4 +26,4 @@ const Account = () => {
     );
 };
 
-export default Account;
+export default Login;
