@@ -12,17 +12,25 @@ const JIKAN_URL = 'https://api.jikan.moe/v4'
 // Display the top 25 Light Novels
 router.get("/", async (req, res) => {
     let retrievePage = req.query.page !== null ? req.query.page : 1;
+    let type = req.query.type !== null ? req.query.type : 'lightnovel';
     console.log(retrievePage + " " + req.query.page);
-    axios
-        .get(JIKAN_URL +
-            "/manga?type=lightnovel&limit=25&order_by=title&sort=asc&sfw=true&page=" +
-            retrievePage)
-        .then(function (response) {
-            let data = response.data;
-            console.log("DATA " + data);
-            res.json(data);
-        }); 
-
+    console.log(type + " " + req.query.type);
+    if (type === 'anime') {
+        axios
+            .get(`${JIKAN_URL}/anime?limit=25&order_by=title&sort=asc&sfw=true&page=${retrievePage}`)
+            .then(response => {
+                res.json(response.data);
+        })
+    } else {
+        axios
+            .get(JIKAN_URL +
+                `/manga?type=${type}&limit=25&order_by=title&sort=asc&sfw=true&page=${retrievePage}`)
+            .then(function (response) {
+                    let data = response.data;
+                    console.log("DATA " + data);
+                    res.json(data);
+                });
+    }
     console.log("--Successfully Retrieve the top 25 LNs--");
 });
 

@@ -16,14 +16,17 @@ function LightNovels() {
     const [currentPage, setCurrentPage] = useSearchParams();
     
     const [viewIndex, setViewIndex] = useState(0);
+    
+    const [selectedSearch, setSelectedSearch] = useState('lightnovel');
 
-    const page = currentPage.get('page') ? currentPage.get('page')  : 1;
+    const page = currentPage.get('page') ? currentPage.get('page') : 1;
     const navigate = useNavigate();
     useEffect(() => {
         const fetchLightNovels = async () => {
             // Calls backend API to retrieve all light novels
-            const response = await axios.get(SERVER_URL + "?page=" + page)
+            const response = await axios.get(SERVER_URL + "?page=" + page + "&type=" + selectedSearch)
                 .then(function (response) {
+                    console.log(response.data);
                     setLightNovel(response.data.data);
                     setPagination(response.data.pagination)
                 })
@@ -36,7 +39,7 @@ function LightNovels() {
             setViewIndex(saved);
         }
         fetchLightNovels();
-    }, []);
+    }, [selectedSearch]);
 
 
     const fetchRandomManga = () => {
@@ -46,28 +49,64 @@ function LightNovels() {
             .then(function (response) {
                 navigate(response.data);
             })
-                .catch(error => {
-                    console.log("Error with fetching random manga...");
-                })
+            .catch(error => {
+                console.log("Error with fetching random manga...");
+            });
         
     }
 
     const fetchRandomAnime = () => {
         // API CALL
-        axios
-        .get(SERVER_URL + "/random/anime")
-            .then(function (response) {
-                navigate(response.data);
-        })
-            .catch(error => {
-                console.log("Error with fetching random manga...");
-            })
+
+        // NEEDS TO UPDATE
+        // axios
+        //     .get(SERVER_URL + "/random/anime")
+        //     .then(function (response) {
+        //         navigate(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.log("Error with fetching random manga...");
+        //     });
     }
 
+    const changeSelection = (value) => {
+        setSelectedSearch(value);
+    }
 
     return (
         <div>
             <div className='header'>
+                <div className='radio'>
+                    
+                    <label>
+                        Light Novel
+                        <input
+                            type='radio'
+                            value='lightnovel'
+                            checked={selectedSearch === 'lightnovel'}
+                            onChange={(e) => changeSelection(e.target.value)}
+                             />
+                    </label>
+                    <label>
+                        Manga
+                        <input
+                            type='radio'
+                            value='manga'
+                            checked={selectedSearch === 'manga'}
+                            onChange={(e) => changeSelection(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        Anime
+                        <input
+                            type='radio'
+                            value='anime'
+                            checked={selectedSearch === 'anime'}
+                            onChange={(e) => changeSelection(e.target.value)}
+                        />
+                    </label>
+                    
+                </div>
                 <button className='fetch-random' onClick={fetchRandomManga}>Random Manga</button>
                 <h1> Home Page</h1>
                 <button className='fetch-random' onClick={fetchRandomAnime}>Random Anime</button>
