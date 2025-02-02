@@ -18,6 +18,7 @@ Started -- September 28, 2024
 # External API Documentations
 - [Jikan API](https://docs.api.jikan.moe)
 - [MyAnimeList Official API](https://myanimelist.net/apiconfig/references/api/v2)
+- [MyAnimeList Authorization Documentation](https://myanimelist.net/apiconfig/references/authorization)
 # Phase 1
 ```
 Created temporary home page that loads the first 25 LNs, 
