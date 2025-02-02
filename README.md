@@ -15,6 +15,9 @@ Tools Used: React/Express/JavaScript/Jikan OpenAPI/Axios
 # Start Date
 Started -- September 28, 2024
 
+# External API Documentations
+- [Jikan API](https://docs.api.jikan.moe)
+- [MyAnimeList Official API](https://myanimelist.net/apiconfig/references/api/v2)
 # Phase 1
 ```
 Created temporary home page that loads the first 25 LNs, 
